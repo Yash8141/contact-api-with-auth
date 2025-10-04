@@ -4,10 +4,20 @@ import bcrypt from "bcryptjs";
 export const createRegister = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    if (name == "" || email == "" || password == "") {
+    
+    // Validate required fields
+    if (!name || !email || !password) {
       return res.status(400).json({
         message: "Please fill all the fields",
-        status: false,
+        success: false,
+      });
+    }
+    
+    // Validate password length
+    if (password.length < 8) {
+      return res.status(400).json({
+        message: "Password must be at least 8 characters long",
+        success: false,
       });
     }
 
