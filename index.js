@@ -23,12 +23,16 @@ await connectDB(mongoDbUrl, dbName);
 
 app.use("/api/users", userRoutes);
 
-// Home route
-// app.use("/", (req, res) => {
-//   res.json({ message: "Backend 🔥🔐" });
-// });
+// Swagger Documentation
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use("/api/docs",swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+// Home route
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "Contact API with Authentication 🔥🔐",
+    documentation: "/api/docs"
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);

@@ -9,16 +9,32 @@ const options = {
     info: {
       title: "Contact API Authentication",
       version: "1.0.0",
-      description: "API documentation is useful to test api",
+      description: "API documentation for testing api",
     },
     servers: [{ url: publicBaseURL }],
-    schemas: {
-      User: {
-        type: "object",
-        properties: {
-          name: { type: "string", example: "John Doe" },
-          email: { type: "string", example: "john@gmail.com" },
-          password: { type: "string", example: "12345678" },
+    components: {
+      schemas: {
+        User: {
+          type: "object",
+          required: ["name", "email", "password"],
+          properties: {
+            name: { 
+              type: "string", 
+              example: "John Doe",
+              description: "User's full name"
+            },
+            email: { 
+              type: "string", 
+              example: "john@gmail.com",
+              description: "User's email address"
+            },
+            password: { 
+              type: "string", 
+              example: "12345678",
+              minLength: 8,
+              description: "User's password (minimum 8 characters)"
+            },
+          },
         },
       },
     },
