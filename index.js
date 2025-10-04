@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config({ path: ".env" });
 
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use(errorHandler)
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
 });
