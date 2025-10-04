@@ -24,9 +24,9 @@ await connectDB(mongoDbUrl, dbName);
 app.use("/api/users", userRoutes);
 
 // Home route
-app.use("/", (req, res) => {
-  res.json({ message: "Backend 🔥🔐" });
-});
+// app.use("/", (req, res) => {
+//   res.json({ message: "Backend 🔥🔐" });
+// });
 
 app.use("/api/docs",swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
