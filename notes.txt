@@ -1,0 +1,11 @@
+// user api endpoint
+1) register = /api/user/register
+2) login = /api/user/login
+
+// contact api endpoint
+1) get all contact = /api/contact
+2) get contact by id = /api/contact/:id
+3) create contact = /api/contact/new [Auth required]
+4) update contact = /api/contact/:id [Auth required]
+5) delete contact = /api/contact/:id [Auth required]
+6) user specific contact = /api/contact/userid/:id
