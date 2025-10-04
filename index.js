@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 dotenv.config({ path: ".env" });
 
@@ -25,6 +27,8 @@ app.use("/api/users", userRoutes);
 app.use("/", (req, res) => {
   res.json({ message: "Backend 🔥🔐" });
 });
+
+app.use("/api/docs",swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
