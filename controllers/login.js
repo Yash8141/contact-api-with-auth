@@ -35,6 +35,7 @@ export const login = async (req, res) => {
   if (user && validPassword) {
     res.status(200).json({
       message: `Welcome ${user.name}`,
+      data: user,
       token,
       success: true,
     });

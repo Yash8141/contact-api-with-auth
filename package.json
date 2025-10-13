@@ -7,13 +7,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "npm run lint && npm run format:check && npm run validate && echo \"✅ Build completed - All checks passed\"",
+    "build:prod": "npm run build && npm install --production",
+    "validate": "npm run validate:syntax && npm run validate:deps",
+    "validate:syntax": "node --check index.js && find . -name '*.js' -not -path './node_modules/*' -exec node --check {} \\;",
+    "validate:deps": "npm audit --audit-level=moderate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.0.0",
+    "@eslint/js": "^9.0.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

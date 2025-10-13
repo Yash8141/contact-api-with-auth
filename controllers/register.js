@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 export const createRegister = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    
+
     // Validate required fields
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -12,7 +12,7 @@ export const createRegister = async (req, res, next) => {
         success: false,
       });
     }
-    
+
     // Validate password length
     if (password.length < 8) {
       return res.status(400).json({
@@ -29,7 +29,7 @@ export const createRegister = async (req, res, next) => {
         success: false,
       });
     }
-    
+
     // decrypt password before user register
     const hashPassword = await bcrypt.hash(password, 10);
 

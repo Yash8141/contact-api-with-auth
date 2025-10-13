@@ -4,8 +4,8 @@ export async function connectDB(url, dbName) {
   try {
     await mongoose.connect(url, {
       dbName: dbName,
-    //   useNewUrlParser: true, // deprecated
-    //   useUnifiedTopology: true, // deprecated
+      //   useNewUrlParser: true, // deprecated
+      //   useUnifiedTopology: true, // deprecated
     });
     console.log("MongoDB Connected");
   } catch (error) {
@@ -15,13 +15,13 @@ export async function connectDB(url, dbName) {
 }
 
 /*
-dbName: dbName: This specifies the name of the database to connect to. If the database does not exist, MongoDB will create it when you 
+dbName: dbName: This specifies the name of the database to connect to. If the database does not exist, MongoDB will create it when you
                 first write data to it.
 
-useNewUrlParser: true: This ensures that Mongoose uses the new URL string parser for MongoDB connection URIs. 
+useNewUrlParser: true: This ensures that Mongoose uses the new URL string parser for MongoDB connection URIs.
                  This option was introduced because MongoDB's URL parser was deprecated and replaced with a more robust parser.
 
-useUnifiedTopology: true: This enables the new topology engine for MongoDB, which provides better handling of the connection lifecycle 
+useUnifiedTopology: true: This enables the new topology engine for MongoDB, which provides better handling of the connection lifecycle
                     (and is the recommended option).
 
 */
