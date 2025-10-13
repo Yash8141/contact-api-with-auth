@@ -13,6 +13,14 @@ const options = {
     },
     servers: [{ url: publicBaseURL }],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          description: "Enter JWT token"
+        }
+      },
       schemas: {
         User: {
           type: "object",
@@ -36,10 +44,31 @@ const options = {
             },
           },
         },
+        Login: {
+          type: "object",
+          required: ["email", "password"],
+          properties: {
+            email: {
+              type: "string",
+              example: "john@gmail.com",
+              description: "User's email address"
+            },
+            password: {
+              type: "string",
+              example: "12345678",
+              description: "User's password"
+            }
+          }
+        }
       },
     },
   },
   apis: ["./routes/*.js"],
+  security: [
+    {
+      bearerAuth: []
+    }
+  ]
 };
 
 const swaggerSpec = swaggerJSDoc(options);

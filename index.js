@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/user.js";
+import loginRoutes from "./routes/login.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -22,20 +23,24 @@ const dbName = process.env.DB_NAME;
 // MongoDB connection
 await connectDB(mongoDbUrl, dbName);
 
+// Register
 app.use("/api/users", userRoutes);
+
+// Login
+app.use("/api/users", loginRoutes);
 
 // Swagger Documentation
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Home route
 app.get("/", (req, res) => {
-  res.json({ 
+  res.json({
     message: "Contact API with Authentication 🔥🔐",
-    documentation: "/api/docs"
+    documentation: "/api/docs",
   });
 });
 
-app.use(errorHandler)
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
 });
