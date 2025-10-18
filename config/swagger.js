@@ -60,6 +60,45 @@ const options = {
             },
           },
         },
+        Contact: {
+          type: "object",
+          required: ["name", "email", "phone", "type"],
+          properties: {
+            name: {
+              type: "string",
+              example: "John Doe",
+              description: "Contact's full name",
+            },
+            email: {
+              type: "string",
+              example: "john@gmail.com",
+              description: "Contact's email address",
+            },
+            phone: {
+              type: "string",
+              example: "1234567890",
+              description: "Contact's phone number",
+            },
+            type: {
+              type: "string",
+              enum: ["Personal", "Professional"],
+              example: "Personal",
+              description: "Contact type (Personal or Professional)",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              example: "2025-10-18T10:30:45.123Z",
+              description: "Contact creation timestamp",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time", 
+              example: "2025-10-18T10:30:45.123Z",
+              description: "Contact last update timestamp",
+            },
+          },
+        },
       },
     },
   },

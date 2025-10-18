@@ -39,7 +39,12 @@ export const createRegister = async (req, res, next) => {
 
     res.status(201).json({
       message: "User registered successfully",
-      data: { name: register.name, email: register.email },
+      data: {
+        name: register.name,
+        email: register.email,
+        createdAt: register.createdAt,
+        updatedAt: register.updatedAt,
+      },
       success: true,
     });
   } catch (error) {

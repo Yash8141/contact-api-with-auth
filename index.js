@@ -2,11 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-import userRoutes from "./routes/user.js";
-import loginRoutes from "./routes/login.js";
+import userRouter from "./routes/user.js";
+import loginRouter from "./routes/login.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 import errorHandler from "./middleware/errorHandler.js";
+import contactRouter from "./routes/contact.js";
 
 dotenv.config({ path: ".env" });
 
@@ -24,10 +25,13 @@ const dbName = process.env.DB_NAME;
 await connectDB(mongoDbUrl, dbName);
 
 // Register
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRouter);
 
 // Login
-app.use("/api/users", loginRoutes);
+app.use("/api/users", loginRouter);
+
+// Contact
+app.use("/api/contact", contactRouter);
 
 // Swagger Documentation
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

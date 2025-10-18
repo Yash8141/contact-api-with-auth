@@ -9,3 +9,8 @@
 4) update contact = /api/contact/:id [Auth required]
 5) delete contact = /api/contact/:id [Auth required]
 6) user specific contact = /api/contact/userid/:id
+
+
+# Common user
+email: admin@gmail.com
+password: 12345678
