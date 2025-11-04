@@ -64,6 +64,11 @@ const options = {
           type: "object",
           required: ["name", "email", "phone", "type"],
           properties: {
+            _id: {
+              type: "string",
+              example: "507f1f77bcf86cd799439011",
+              description: "Contact's unique identifier",
+            },
             name: {
               type: "string",
               example: "John Doe",
@@ -96,6 +101,20 @@ const options = {
               format: "date-time", 
               example: "2025-10-18T10:30:45.123Z",
               description: "Contact last update timestamp",
+            },
+          },
+        },
+        Error: {
+          type: "object",
+          properties: {
+            message: {
+              type: "string",
+              description: "Error message",
+            },
+            success: {
+              type: "boolean",
+              example: false,
+              description: "Request success status",
             },
           },
         },

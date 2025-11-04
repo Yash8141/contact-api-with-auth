@@ -1,4 +1,5 @@
 import { Contact } from "../models/Contact.js";
+import { validateContactFields } from "../utils/contactValidation.js";
 import { calculatePagination } from "../utils/pagination.js";
 import {
   buildSearchQuery,
@@ -6,25 +7,20 @@ import {
   buildSortQuery,
 } from "../utils/queryBuilder.js";
 import { validateContactQuery } from "../utils/validation.js";
+import mongoose from "mongoose";
 
 // create new contact
 export const newContact = async (req, res) => {
   const { name, email, phone, type } = req.body;
 
-  if (!name || !email || !phone || !type) {
-    return res.status(400).json({
-      message: "Please fill all fields",
-      success: false,
-    });
-  }
+  // Check req body data
+  const validation = validateContactFields(name,email,phone,type)
 
-  // Validate contact type
-  const validTypes = ["personal", "professional"];
-  if (!validTypes.includes(type.toLowerCase())) {
+  if(!validation.success){
     return res.status(400).json({
-      message: `Invalid contact type. Must be one of: Personal, Professional`,
-      success: false,
-    });
+      message: validation.message,
+      success: false
+    })
   }
 
   // Check if contact email already exists
@@ -121,3 +117,84 @@ export const getAllContact = async (req, res) => {
     });
   }
 };
+
+// get contact by id
+export const getContactById = async (req,res) => {
+  const {id} = req.params;
+  const userContact =  await Contact.findById(id)
+  
+  if(!userContact) {
+    return res.status(404).json({
+      message: "Contact not found",
+      success: false
+    })
+  }
+
+  if(userContact) {
+    return res.status(200).json({
+      message: "Contact retrieved successfully",
+      data: userContact,
+      success: true
+    })
+  }
+}
+
+// update contact by id
+export const updateContactById = async(req,res) => {
+  const {id} = req.params;
+  const {name,email,phone,type} = req.body;
+
+  // Check req body data
+  const validation = validateContactFields(name,email,phone,type)
+
+  if(!validation.success){
+    return res.status(400).json({
+      message: validation.message,
+      success: false
+    })
+  }
+  const updatedContact = await Contact.findByIdAndUpdate(id,{
+    name,
+    email,
+    phone,
+    type: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
+  }, { new: true }) // new: true returns the updated document instead of the old one
+
+  if(!updatedContact){
+    return res.status(404).json({
+      message: "Contact not found",
+      success: false
+    })
+  } 
+  if(updatedContact) {
+    return res.status(200).json({
+      message: "Contact updated successfully",
+      data: updatedContact,
+      success: true
+    })
+  }
+}
+
+// delete contact by id
+export const deleteContactById = async(req,res) => {
+  const {id} = req.params;
+  
+  if(!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Invalid contact ID format",
+      success: false
+    })
+  }
+  
+  const deleteContact = await Contact.findByIdAndDelete(id)
+  if(!deleteContact) {
+    return res.status(404).json({
+      message: "Contact not found",
+      success: false
+    })
+  }
+  return res.status(200).json({
+    message: "Contact deleted successfully",
+    success: true
+  })
+}
