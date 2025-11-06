@@ -66,41 +66,51 @@ const options = {
           properties: {
             _id: {
               type: "string",
-              example: "507f1f77bcf86cd799439011",
+              example: "690ccf52042932d2abb85c06",
               description: "Contact's unique identifier",
             },
             name: {
               type: "string",
-              example: "John Doe",
+              example: "Rohan Patel",
               description: "Contact's full name",
             },
             email: {
               type: "string",
-              example: "john@gmail.com",
+              example: "rohan.patel@techhub.co.in",
               description: "Contact's email address",
             },
             phone: {
               type: "string",
-              example: "1234567890",
+              example: "9123456798",
               description: "Contact's phone number",
             },
             type: {
               type: "string",
               enum: ["Personal", "Professional"],
-              example: "Personal",
+              example: "Professional",
               description: "Contact type (Personal or Professional)",
+            },
+            user: {
+              type: "string",
+              example: "690cce9b042932d2abb85bfa",
+              description: "ID of the user who owns this contact",
             },
             createdAt: {
               type: "string",
               format: "date-time",
-              example: "2025-10-18T10:30:45.123Z",
+              example: "2025-11-06T16:39:46.568Z",
               description: "Contact creation timestamp",
             },
             updatedAt: {
               type: "string",
               format: "date-time", 
-              example: "2025-10-18T10:30:45.123Z",
+              example: "2025-11-06T16:39:46.568Z",
               description: "Contact last update timestamp",
+            },
+            __v: {
+              type: "integer",
+              example: 0,
+              description: "MongoDB version key",
             },
           },
         },
