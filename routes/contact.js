@@ -1,5 +1,12 @@
 import express from "express";
-import { newContact, getAllContact, getContactById, updateContactById, deleteContactById } from "../controllers/contact.js";
+import {
+  newContact,
+  getAllContact,
+  getContactById,
+  updateContactById,
+  deleteContactById,
+  getContactByUserId,
+} from "../controllers/contact.js";
 import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -275,7 +282,7 @@ router.get("/", authenticateToken, getAllContact);
  *         description: Unauthorized - invalid or missing token
  */
 // Get Contact by id
-router.get("/:id",authenticateToken,getContactById)
+router.get("/:id", authenticateToken, getContactById);
 
 /**
  * @swagger
@@ -364,7 +371,7 @@ router.get("/:id",authenticateToken,getContactById)
  *         description: Unauthorized - invalid or missing token
  */
 // Update contact by od
-router.put("/:id",authenticateToken,updateContactById)
+router.put("/:id", authenticateToken, updateContactById);
 
 /**
  * @swagger
@@ -426,6 +433,58 @@ router.put("/:id",authenticateToken,updateContactById)
  *         description: Unauthorized - invalid or missing token
  */
 // Delete contact by id
-router.delete("/:id",authenticateToken,deleteContactById)
+router.delete("/:id", authenticateToken, deleteContactById);
 
+/**
+ * @swagger
+ * /api/contact/user/{id}:
+ *   get:
+ *     summary: Get all contacts for a specific user
+ *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID to get contacts for
+ *         example: "690cce9b042932d2abb85bfa"
+ *     responses:
+ *       200:
+ *         description: User contacts retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User contacts retrieved successfully"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Contact'
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Bad request - invalid user ID format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid user ID format"
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *       401:
+ *         description: Unauthorized - invalid or missing token
+ */
+// Get User Specific Contact
+router.get("/user/:id", authenticateToken, getContactByUserId);
 export default router;

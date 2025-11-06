@@ -12,5 +12,11 @@
 
 
 # Common user
-email: admin@gmail.com
-password: 12345678
+1) email: admin@gmail.com
+   password: 12345678
+
+2) email: emma.collins@gmail.com
+   password: Admin@123
+
+3) email: aarav.mehta@company.in
+   password: Admin@123

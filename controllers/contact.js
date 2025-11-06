@@ -14,13 +14,13 @@ export const newContact = async (req, res) => {
   const { name, email, phone, type } = req.body;
 
   // Check req body data
-  const validation = validateContactFields(name,email,phone,type)
+  const validation = validateContactFields(name, email, phone, type);
 
-  if(!validation.success){
+  if (!validation.success) {
     return res.status(400).json({
       message: validation.message,
-      success: false
-    })
+      success: false,
+    });
   }
 
   // Check if contact email already exists
@@ -47,6 +47,7 @@ export const newContact = async (req, res) => {
     email,
     phone,
     type: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase(),
+    user: req.user,
   });
   await contact.save();
 
@@ -119,82 +120,115 @@ export const getAllContact = async (req, res) => {
 };
 
 // get contact by id
-export const getContactById = async (req,res) => {
-  const {id} = req.params;
-  const userContact =  await Contact.findById(id)
-  
-  if(!userContact) {
+export const getContactById = async (req, res) => {
+  const { id } = req.params;
+  const userContact = await Contact.findById(id);
+
+  if (!userContact) {
     return res.status(404).json({
       message: "Contact not found",
-      success: false
-    })
+      success: false,
+    });
   }
 
-  if(userContact) {
+  if (userContact) {
     return res.status(200).json({
       message: "Contact retrieved successfully",
       data: userContact,
-      success: true
-    })
+      success: true,
+    });
   }
-}
+};
 
 // update contact by id
-export const updateContactById = async(req,res) => {
-  const {id} = req.params;
-  const {name,email,phone,type} = req.body;
+export const updateContactById = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, phone, type } = req.body;
 
   // Check req body data
-  const validation = validateContactFields(name,email,phone,type)
+  const validation = validateContactFields(name, email, phone, type);
 
-  if(!validation.success){
+  if (!validation.success) {
     return res.status(400).json({
       message: validation.message,
-      success: false
-    })
+      success: false,
+    });
   }
-  const updatedContact = await Contact.findByIdAndUpdate(id,{
-    name,
-    email,
-    phone,
-    type: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
-  }, { new: true }) // new: true returns the updated document instead of the old one
+  const updatedContact = await Contact.findByIdAndUpdate(
+    id,
+    {
+      name,
+      email,
+      phone,
+      type: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase(),
+    },
+    { new: true }
+  ); // new: true returns the updated document instead of the old one
 
-  if(!updatedContact){
+  if (!updatedContact) {
     return res.status(404).json({
       message: "Contact not found",
-      success: false
-    })
-  } 
-  if(updatedContact) {
+      success: false,
+    });
+  }
+  if (updatedContact) {
     return res.status(200).json({
       message: "Contact updated successfully",
       data: updatedContact,
-      success: true
-    })
+      success: true,
+    });
   }
-}
+};
 
 // delete contact by id
-export const deleteContactById = async(req,res) => {
-  const {id} = req.params;
-  
-  if(!mongoose.Types.ObjectId.isValid(id)) {
+export const deleteContactById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({
       message: "Invalid contact ID format",
-      success: false
-    })
+      success: false,
+    });
   }
-  
-  const deleteContact = await Contact.findByIdAndDelete(id)
-  if(!deleteContact) {
+
+  const deleteContact = await Contact.findByIdAndDelete(id);
+  if (!deleteContact) {
     return res.status(404).json({
       message: "Contact not found",
-      success: false
-    })
+      success: false,
+    });
   }
   return res.status(200).json({
     message: "Contact deleted successfully",
-    success: true
-  })
-}
+    success: true,
+  });
+};
+
+// get contact by user id
+export const getContactByUserId = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Invalid user ID format",
+      success: false,
+    });
+  }
+
+  const userContacts = await Contact.find({ user: id });
+
+  if (!userContacts || userContacts.length === 0) {
+    return res.status(404).json({
+      message: "No contacts found for this user",
+      success: false,
+    });
+  }
+
+  if (userContacts) {
+    return res.status(200).json({
+      message: "User contacts retrieved successfully",
+      data: userContacts,
+      success: true,
+    });
+  }
+};
